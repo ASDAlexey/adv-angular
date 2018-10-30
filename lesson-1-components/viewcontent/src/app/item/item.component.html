@@ -1,3 +1,11 @@
-VIEW
+<span #s>VIEW</span>
+<ng-content select=".cl"></ng-content>
 <ng-content select="h1"></ng-content>
 <ng-content select="main"></ng-content>
+
+<!--<form #f="ngForm"></form>-->
+<ng-template #t>
+  <h1 colory #c="colory">Template in sng-container ngTemplateOutlet="t"</h1>
+  <button type="button" (click)="c.changeColor('green')">Change color</button>
+</ng-template>
+<ng-container *ngTemplateOutlet="t"></ng-container>
