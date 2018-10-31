@@ -1,4 +1,6 @@
 <span #s>VIEW</span>
+<button (click)="clearHost()">Clear</button>
+<button (click)="addToHost()">Add to Host</button>
 <ng-content select=".cl"></ng-content>
 <ng-content select="h1"></ng-content>
 <ng-content select="main"></ng-content>
@@ -9,3 +11,20 @@
   <button type="button" (click)="c.changeColor('green')">Change color</button>
 </ng-template>
 <ng-container *ngTemplateOutlet="t"></ng-container>
+
+<ul>
+  <li *ngFor="let time of [1,2,3,4,5]">
+    <h1 *delay="time">Structural directive</h1>
+  </li>
+</ul>
+
+
+<!--Dynamic add component-->
+<div>
+  <span host></span>
+</div>
+
+
+<section>
+  <ng-container *ngComponentOutlet="bannerComponent"></ng-container>
+</section>
