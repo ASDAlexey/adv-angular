@@ -9,6 +9,14 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-  <app-root></app-root>
+<my-hello name="John"></my-hello>
+
+<script>
+  const customHello = document.querySelector('my-hello');
+  customHello.setAttribute('name', 'Alice');
+  // customHello.addEventListener('clicked', (event) => {
+  //   console.log(event);
+  // })
+</script>
 </body>
 </html>
