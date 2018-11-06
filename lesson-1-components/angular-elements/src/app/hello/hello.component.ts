@@ -8,7 +8,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 })
 export class HelloComponent {
   @Input() name: string;
-  @Output() clicked: EventEmitter<string>;
+  @Output() clicked = new EventEmitter<string>();
 
   xxx() {
     this.clicked.emit('CLICKED!');
