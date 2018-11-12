@@ -5,7 +5,7 @@ import {HelloComponent} from './hello/hello.component';
 
 @NgModule({
   declarations: [
-    HelloComponet
+    HelloComponent,
   ],
   imports: [
     BrowserModule
@@ -13,7 +13,8 @@ import {HelloComponent} from './hello/hello.component';
   entryComponents: [HelloComponent],
 })
 export class AppModule implements DoBootstrap {
-  constructor(private injector: Injector) {}
+  constructor(private injector: Injector) {
+  }
 
   ngDoBootstrap() {
     const helloElement = createCustomElement(HelloComponent, {injector: this.injector});
