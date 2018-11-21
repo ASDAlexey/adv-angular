@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
+import { BoxComponent } from './box/box.component';
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -18,20 +19,20 @@ function getRandomInt(min, max) {
         *ngFor="let box of boxes"
         box
         [box]="box"
-        [selected]="box.id === currentId"
       ></svg:g>
     </svg>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
-  currentId = null;
+export class AppComponent implements AfterViewInit {
   boxes = [];
   offsetX;
   offsetY;
+  currentBox: BoxComponent = null;
+
+  constructor(private cd: ChangeDetectorRef) {}
 
   ngOnInit() {
-    for (let i = 0; i < 20000; i++) {
+    for (let i = 0; i < 10000; i++) {
       const id = i;
       const x = getRandomInt(0, 500);
       const y = getRandomInt(0, 500);
@@ -44,28 +45,44 @@ export class AppComponent {
     }
   }
 
+  ngAfterViewInit(): void {
+    this.cd.detach();
+  }
+
   mouseDown(event) {
-    const id = Number(event.target.getAttribute('dataId'));
-    const box = this.boxes[id];
-    const mouseX = event.clientX;
-    const mouseY = event.clientY;
-    this.offsetX = box.x - mouseX;
-    this.offsetY = box.y - mouseY;
-    this.currentId = id;
+    const boxComponent: BoxComponent = event.target['BoxComponent'];
+
+    if (boxComponent) {
+      const box = boxComponent.box;
+      const mouseX = event.clientX;
+      const mouseY = event.clientY;
+      this.offsetX = box.x - mouseX;
+      this.offsetY = box.y - mouseY;
+      this.currentBox = boxComponent;
+      boxComponent.selected = true;
+      boxComponent.update();
+    }
   }
 
   mouseMove(event) {
     event.preventDefault();
-    if (this.currentId !== null) {
-      this.updateBox(this.currentId, event.clientX + this.offsetX, event.clientY + this.offsetY);
+    if (this.currentBox !== null) {
+      this.updateBox(this.currentBox, event.clientX + this.offsetX, event.clientY + this.offsetY);
     }
   }
 
   mouseUp($event) {
-    this.currentId = null;
+    if (this.currentBox) {
+      this.currentBox.selected = false;
+      this.currentBox.update();
+    }
+
+    this.currentBox = null;
   }
 
-  updateBox(id, x, y) {
-    this.boxes[id] = { id, x, y };
+  updateBox(boxComponent, x, y): void {
+    boxComponent.box.x = x;
+    boxComponent.box.y = y;
+    boxComponent.update();
   }
 }
