@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SwUpdate } from '@angular/service-worker';
+import { SwPush, SwUpdate } from '@angular/service-worker';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +9,13 @@ import { SwUpdate } from '@angular/service-worker';
 export class AppComponent {
   title = 'sw title nnn';
 
-  constructor(private updates: SwUpdate) {
-    this.updates.available.subscribe(() => {
+  constructor(private updates: SwUpdate, push: SwPush) {
+    updates.available.subscribe(() => {
       alert('App was updated');
+    });
+
+    push.messages.subscribe((message)=>{
+      // dialogue notification "message"
     });
   }
 }
