@@ -1,1 +1,1 @@
-ng add 
+ng add @angular/pwa
