@@ -29,7 +29,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [ ]
           },
           "configurations": {
             "production": {
@@ -85,11 +85,29 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [ ],
             "assets": [
               "src/favicon.ico",
               "src/assets"
             ]
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "main": "src/main.server.ts",
+            "tsConfig": "src/tsconfig.server.json",
+            "outputPath": "dist/server"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            }
           }
         },
         "lint": {
