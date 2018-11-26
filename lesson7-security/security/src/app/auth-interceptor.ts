@@ -1,8 +1,12 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, delay, retry } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 export class AuthInterceptor implements HttpInterceptor {
+  constructor(private router: Router) {}
+
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // rewrite request
     const authReq = req.clone({ headers: req.headers.set('headerName', '555') });
@@ -16,7 +20,7 @@ export class AuthInterceptor implements HttpInterceptor {
         // 403 - пользователь залогинен но ему запрещен доступ к ресурсу
         if (error.status === 401) {
           // unauthorized
-          // redirect to /login
+          // redirect to /login this.router.redirect
         } else if (error.status === 403) {
           // contact admin нет доступа к ресурсу
         }
